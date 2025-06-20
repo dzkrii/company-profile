@@ -12,7 +12,8 @@ class OurPrincipleController extends Controller
      */
     public function index()
     {
-        //
+        $principles = OurPrinciple::orderByDesc('id')->paginate(10);
+        return view('company.principles.index', compact('principles'));
     }
 
     /**

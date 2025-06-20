@@ -12,7 +12,8 @@ class HeroSectionController extends Controller
      */
     public function index()
     {
-        //
+        $hero_sections = HeroSection::orderByDesc('id')->paginate(10);
+        return view('company.hero_sections.index', compact('hero_sections'));
     }
 
     /**

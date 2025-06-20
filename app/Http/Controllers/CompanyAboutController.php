@@ -12,7 +12,8 @@ class CompanyAboutController extends Controller
      */
     public function index()
     {
-        //
+        $abouts = CompanyAbout::orderByDesc('id')->paginate(10);
+        return view('company.abouts.index', compact('abouts'));
     }
 
     /**
