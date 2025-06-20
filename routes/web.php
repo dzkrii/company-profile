@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\CompanyAboutController;
 use App\Http\Controllers\CompanyStatisticController;
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HeroSectionController;
 use App\Http\Controllers\OurPrincipleController;
 use App\Http\Controllers\OurTeamController;
@@ -12,9 +13,7 @@ use App\Http\Controllers\ProjectClientController;
 use App\Http\Controllers\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [FrontController::class, 'index'])->name('front.index');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -23,9 +22,9 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
+    // Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
 
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::middleware('can:manage statistics')->group(function () {
@@ -50,6 +49,10 @@ Route::middleware('auth')->group(function () {
 
         Route::middleware('can:manage teams')->group(function () {
             Route::resource('teams', OurTeamController::class);
+        });
+
+        Route::middleware('can:manage abouts')->group(function () {
+            Route::resource('abouts', CompanyAboutController::class);
         });
 
         Route::middleware('can:manage appointments')->group(function () {
